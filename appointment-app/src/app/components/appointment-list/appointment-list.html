@@ -1,0 +1,26 @@
+<p>appointment-list works!</p>
+
+<!-- <div>{{ appointment.title }}</div> -->
+
+<div>
+  <input [(ngModel)]="inputAppointmentTitle" placeholder="Appointment Title" />
+  <input [(ngModel)]="inputAppointmentDate" placeholder="Appointment Date" type="date" />
+  <button (click)="handleAddAppointment()">Add Appointment</button>
+</div>
+
+<ul>
+  <!-- <li *ngFor="let appoint of appointment; let i = index">
+    {{ appoint.id }} {{ appoint.title }} {{ appoint.date | date : 'dd.MM.yyyy' }}
+  </li> -->
+
+  <!-- Newer version of ngFor -->
+  @for (appoint of appointment; track $index) {
+  <!-- your template -->
+  <li>
+    {{ appoint.id }}
+    {{ appoint.title }}
+    {{ appoint.date }}
+    <button (click)="handleDeleteAppointment($index)">Delete</button>
+  </li>
+  }
+</ul>
