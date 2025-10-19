@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Appointment } from '../../interface/appointment';
 
 @Component({
@@ -7,11 +7,19 @@ import { Appointment } from '../../interface/appointment';
   templateUrl: './appointment-list.html',
   styleUrl: './appointment-list.css',
 })
-export class AppointmentList {
+export class AppointmentList implements OnInit {
   appointment: Appointment[] = [];
 
   inputAppointmentTitle: string = '';
   inputAppointmentDate: Date | null = null;
+
+  ngOnInit() {
+    const appointments = localStorage.getItem('appointments');
+
+    if (appointments) {
+      this.appointment = JSON.parse(appointments);
+    }
+  }
 
   handleAddAppointment() {
     if (this.inputAppointmentTitle.trim().length > 0 && this.inputAppointmentDate !== null) {
@@ -23,6 +31,8 @@ export class AppointmentList {
 
       this.appointment.push(appointmentObj);
 
+      localStorage.setItem('appointments', JSON.stringify(this.appointment));
+
       this.inputAppointmentTitle = '';
       this.inputAppointmentDate = null;
     } else {
@@ -32,5 +42,6 @@ export class AppointmentList {
 
   handleDeleteAppointment(index: number) {
     this.appointment.splice(index, 1);
+    localStorage.setItem('appointments', JSON.stringify(this.appointment));
   }
 }
